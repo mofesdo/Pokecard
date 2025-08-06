@@ -17,7 +17,7 @@
 }
 .modal__title {
   margin: 0;
-  padding: 28px 0 24px 28px;
+  padding: 28px 0 24px 0;
   font-size: 16px;
   line-height: 20px;
 }
@@ -39,6 +39,7 @@
 }
 .modal__content {
   background-color: #fff;
+  color:rgba(0, 0, 0, 1);
   position: relative;
   padding: 28px 28px 36px;
   max-width: 496px;
@@ -60,6 +61,8 @@
   width: 440px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 1);
+  color: rgba(0, 0, 0, 1);
+  background-color: #fff;
   padding: 0;
 }
 .modal__legend {

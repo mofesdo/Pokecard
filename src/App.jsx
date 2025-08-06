@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import CardModal from "./components/CardModal/CardModal";
+import { getPokemonByName } from "./utils/pokeapi";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
@@ -12,14 +13,15 @@ function App() {
   const handleCardSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
+    getPokemonByName(e.target.elements.card__name.value.toUpperCase()); // Fetch Pokémon data by name
     console.log("Card submitted");
-    console.log(e.target.elements.pokemon_name.value); // Access the name input value
+    console.log(e.target.elements.card__name.value); // Access the name input value
     let name = document.getElementsByClassName("card__title")[0];
     console.log(name);
-    name.textContent = e.target.elements.pokemon_name.value; // Update the card title with the input value
+    name.textContent = e.target.elements.card__name.value; // Update the card title with the input value
     let shiny = "normal"; // Default to normal sprite
     let img = document.getElementsByClassName("card__img")[0];
-    img.src = `https://img.pokemondb.net/sprites/go/${shiny}/${e.target.elements.pokemon_name.value.toLowerCase()}.png`; // Update the image
+    img.src = `https://img.pokemondb.net/sprites/go/${shiny}/${e.target.elements.card__name.value.toLowerCase()}.png`; // Update the image
     setActiveModal(""); // Close the modal after submission
   };
 
