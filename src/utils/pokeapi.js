@@ -1,17 +1,14 @@
 function getPokemonByName(name) {
-  fetch(`https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex/name/${name}.json`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Pokémon not found");
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Pokémon data:", data);
-    })
-    .catch(error => {
-      console.error("Error:", error.message);
-    });
+  return fetch(
+    `https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex/name/${name}.json`
+  ).then(checkResponse);
+}
+
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error ${res.status}`);
 }
 
 export { getPokemonByName };

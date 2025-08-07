@@ -58,10 +58,9 @@ function CardModal({ isOpen, onClose, onSubmit }) {
             <option value="13">13</option>
             <option value="14">14</option>
             <option value="15">15</option>
-
           </select>
         </div>
-                <div className="card__iv_defense">
+        <div className="card__iv_defense">
           IV Defense:
           <select name="card__iv_defense" id="card__iv_defense">
             <option value="0">0</option>
@@ -80,10 +79,9 @@ function CardModal({ isOpen, onClose, onSubmit }) {
             <option value="13">13</option>
             <option value="14">14</option>
             <option value="15">15</option>
-
           </select>
         </div>
-                <div className="card__iv__stamina">
+        <div className="card__iv__stamina">
           IV Stamina:
           <select name="card__iv_stamina" id="card__iv_stamina">
             <option value="0">0</option>
@@ -102,11 +100,13 @@ function CardModal({ isOpen, onClose, onSubmit }) {
             <option value="13">13</option>
             <option value="14">14</option>
             <option value="15">15</option>
-
           </select>
         </div>
         <label htmlFor="card__cp">Combat Power:</label>
-        <input type="number" max="9999"/>
+        <input type="number" max="9999" />
+        <label htmlFor="card__shiny">Shiny?</label>
+        <input type="checkbox" name="card__shiny" id="card__shiny" />
+
       </div>
     </ModalWithForm>
   );
