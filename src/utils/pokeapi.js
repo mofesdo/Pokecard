@@ -11,4 +11,9 @@ function checkResponse(res) {
   return Promise.reject(`Error ${res.status}`);
 }
 
-export { getPokemonByName };
+function getAllPokemon() {
+  return fetch(
+    "https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex.json"
+  ).then(checkResponse);
+}
+export { getPokemonByName, getAllPokemon };

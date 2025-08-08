@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "./App.css";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import CreateCard from "./components/CreateCard/CreateCard";
 import CardModal from "./components/CardModal/CardModal";
-import { getPokemonByName } from "./utils/pokeapi";
+import { getPokemonByName, getAllPokemon } from "./utils/pokeapi";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
@@ -42,6 +42,14 @@ function App() {
     setActiveModal("");
   };
 
+  useEffect(() => {
+    // Any additional setup can go here
+    getAllPokemon().then((pokemonList) => {
+      console.log("All Pokémon fetched:", pokemonList);
+    }).catch((error) => {
+      console.error("Error fetching Pokémon list:", error);
+    });
+  }, []);
   return (
     <Router>
       <Routes>
