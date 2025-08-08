@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getPokemonByName } from "../../utils/pokeapi";
 import "./Main.css";
 
 function Main() {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name.trim()) {
-      navigate(`/create?name=${encodeURIComponent(name)}`);
+    setError(""); // clear previous error
+
+    const trimmedName = name.trim().toUpperCase();
+    if (!trimmedName) {
+      setError("Please enter a Pokémon name.");
+      return;
+    }
+
+    try {
+      await getPokemonByName(trimmedName); // Assume this throws on 404
+      navigate(`/create?name=${encodeURIComponent(trimmedName)}`);
+    } catch (err) {
+      setError("That is not a valid Pokémon name.");
     }
   };
 
@@ -26,6 +39,7 @@ function Main() {
         />
         <button type="submit">Continue</button>
       </form>
+       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 }

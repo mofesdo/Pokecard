@@ -1,47 +1,30 @@
-import React, { useState } from "react";
-import { getPokemonByName } from "../../utils/pokeapi";
+import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getPokemonByName } from '../../utils/pokeapi';
 
-function CreateCard(pokemon) {
-    console.log("CreateCard component loaded with pokemon:", pokemon);
-  const [pokemonName, setPokemonName] = useState("");
-  const [shiny, setShiny] = useState(false);
-  const [cp, setCp] = useState(0);
-  const [pokemonData, setPokemonData] = useState(null);
+function CreateCard() {
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get('name');
+  const [pokemon, setPokemon] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    getPokemonByName(pokemonName)
-      .then(data => {
-        setPokemonData(data);
-        // Additional logic to handle shiny status and CP can be added here
-      })
-      .catch(error => {
-        console.error("Error fetching Pokémon data:", error);
-      });
-  };
+  useEffect(() => {
+    if (name) {
+      getPokemonByName(name)
+        .then(setPokemon)
+        .catch(() => setError('Invalid Pokémon.'));
+    }
+  }, [name]);
+
+  if (error) return <p>{error}</p>;
+  if (!pokemon) return <p>Loading...</p>;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={pokemonName}
-        onChange={(e) => setPokemonName(e.target.value)}
-        placeholder="Enter Pokémon name"
-      />
-      <input
-        type="checkbox"
-        checked={shiny}
-        onChange={(e) => setShiny(e.target.checked)}
-      />
-      <label>Shiny?</label>
-      <input
-        type="number"
-        value={cp}
-        onChange={(e) => setCp(e.target.value)}
-        placeholder="Combat Power"
-      />
-      <button type="submit">Create Card</button>
-    </form>
+    <div>
+      <h2>{pokemon.name}</h2>
+      <img src={pokemon.assets.image} alt={pokemon.name} />
+      {/* Additional card customization form here */}
+    </div>
   );
 }
 
