@@ -5,7 +5,7 @@ import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import CreateCard from "./components/CreateCard/CreateCard";
 import CardModal from "./components/CardModal/CardModal";
-import { getPokemonByName, getAllPokemon } from "./utils/pokeapi";
+import { getPokemonByName, getAllPokemon, getPokemonTypes } from "./utils/pokeapi";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");

@@ -15,8 +15,14 @@ function CreateCard() {
     trainer: "",
     isShiny: false,
     quickMove: "",
-    chargeMove: "",
+    chargeMove1: "",
+    chargeMove2: "",
   });
+
+  const typeIcons = {
+    Bug: "https://assets.dittobase.com/go/types/bug.png",
+    // ... add all the types your API can return
+  };
 
   const cardRef = useRef();
 
@@ -63,6 +69,9 @@ function CreateCard() {
 
   if (error) return <p>{error}</p>;
   if (!pokemon) return <p>Loading...</p>;
+  const selectedMoveData = cinematicMoves.find(
+    (move) => move.id === selectedMove
+  );
 
   return (
     <div className="create-page">
@@ -132,6 +141,20 @@ function CreateCard() {
           alt={pokemon.name}
           style={{ width: "150px" }}
         />
+        {selectedMove ? (
+          <div className="move-preview">
+            <h3>{selectedMoveData.label}</h3>
+            <img
+              src={`https://assets.dittobase.com/go/types/${selectedMoveData.type.toLowerCase()}.png`}
+              alt={selectedMoveData.type}
+              style={{ width: "20px", height: "20px", marginRight: "6px" }}
+            />
+            <p>Type: {selectedMoveData.type}</p>
+            <p>Power: {selectedMoveData.power}</p>
+          </div>
+        ) : (
+          <p>No charged move selected</p>
+        )}
         <p>Trainer: {formData.trainer || "Unknown"}</p>
       </div>
 

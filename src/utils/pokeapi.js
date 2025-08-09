@@ -16,4 +16,10 @@ function getAllPokemon() {
     "https://pokemon-go-api.github.io/pokemon-go-api/api/pokedex.json"
   ).then(checkResponse);
 }
-export { getPokemonByName, getAllPokemon };
+
+function getPokemonTypes(){
+  return fetch(
+    "https://pokemon-go-api.github.io/pokemon-go-api/api/types.json"
+  ).then(checkResponse);
+}
+export { getPokemonByName, getAllPokemon, getPokemonTypes };
