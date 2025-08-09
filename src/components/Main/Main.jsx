@@ -19,8 +19,12 @@ function Main() {
     }
 
     try {
-      await getPokemonByName(trimmedName); // Assume this throws on 404
+      await getPokemonByName(trimmedName).then((pokemon) => {
+        //console.log("Pokemon data fetched:", pokemon);
+      }); // Assume this throws on 404
+      
       navigate(`/create?name=${encodeURIComponent(trimmedName)}`);
+      
     } catch (err) {
       setError("That is not a valid Pokémon name.");
     }

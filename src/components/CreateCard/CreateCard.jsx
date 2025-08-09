@@ -7,11 +7,15 @@ function CreateCard() {
   const [searchParams] = useSearchParams();
   const name = searchParams.get("name");
   const [pokemon, setPokemon] = useState(null);
+  const [cinematicMoves, setCinematicMoves] = useState([]);
+  const [selectedMove, setSelectedMove] = useState("");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     nickname: "",
     trainer: "",
     isShiny: false,
+    quickMove: "",
+    chargeMove: "",
   });
 
   const cardRef = useRef();
@@ -19,7 +23,18 @@ function CreateCard() {
   useEffect(() => {
     if (name) {
       getPokemonByName(name)
-        .then(setPokemon)
+        .then((pokemon) => {
+          setPokemon(pokemon);
+          console.log("Pokemon data fetched:", pokemon);
+          const cinematic = Object.values(pokemon.cinematicMoves).map((m) => ({
+            id: m.id,
+            label: m.names?.English ?? m.id,
+            power: m.power,
+            type: m.type?.names?.English,
+          }));
+          console.log("Cinematic Moves:", cinematic);
+          setCinematicMoves(cinematic);
+        })
         .catch(() => setError("Invalid Pokémon."));
     }
   }, [name]);
@@ -36,12 +51,14 @@ function CreateCard() {
     const html2canvas = (await import("html2canvas")).default;
     if (!cardRef.current) return;
 
-    html2canvas(cardRef.current, {useCORS: true, allowTaint: false}).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = `${formData.nickname || pokemon.name}-card.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    });
+    html2canvas(cardRef.current, { useCORS: true, allowTaint: false }).then(
+      (canvas) => {
+        const link = document.createElement("a");
+        link.download = `${formData.nickname || pokemon.name}-card.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+    );
   };
 
   if (error) return <p>{error}</p>;
@@ -78,6 +95,17 @@ function CreateCard() {
             checked={formData.isShiny}
             onChange={handleChange}
           />
+          <select
+            value={selectedMove}
+            onChange={(e) => setSelectedMove(e.target.value)}
+          >
+            <option value="">-- Select Charged Move --</option>
+            {cinematicMoves.map((move) => (
+              <option key={move.id} value={move.id}>
+                {move.label}
+              </option>
+            ))}
+          </select>
         </label>
       </form>
 

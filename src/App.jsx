@@ -42,14 +42,15 @@ function App() {
     setActiveModal("");
   };
 
-  useEffect(() => {
-    // Any additional setup can go here
-    getAllPokemon().then((pokemonList) => {
-      console.log("All Pokémon fetched:", pokemonList);
-    }).catch((error) => {
-      console.error("Error fetching Pokémon list:", error);
-    });
-  }, []);
+  // useEffect(() => {
+  //   // Any additional setup can go here
+  //   getAllPokemon().then((pokemonList) => {
+  //     console.log("All Pokémon fetched:", pokemonList);
+  //   }).catch((error) => {
+  //     console.error("Error fetching Pokémon list:", error);
+  //   });
+  // }, []);
+
   return (
     <Router>
       <Routes>
