@@ -32,8 +32,6 @@ function Main() {
 
   return (
     <div className="main">
-      <h1>Pokecard</h1>
-      <p>Create a unique catch card for you pokemon!</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
