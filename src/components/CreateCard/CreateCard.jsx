@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getPokemonByName } from "../../utils/pokeapi";
+import typeImages from "../../utils/typeImages";
 import "./CreateCard.css";
 
 function CreateCard() {
@@ -144,22 +145,26 @@ function CreateCard() {
             onChange={(e) => setChargeMove(e.target.value)}
           >
             <option value="">-- Select Charged Move --</option>
-            {cinematicMoves.filter((move) => move.id !== chargeMove2).map((move) => (
-              <option key={move.id} value={move.id}>
-                {move.label}
-              </option>
-            ))}
+            {cinematicMoves
+              .filter((move) => move.id !== chargeMove2)
+              .map((move) => (
+                <option key={move.id} value={move.id}>
+                  {move.label}
+                </option>
+              ))}
           </select>
           <select
             value={chargeMove2}
             onChange={(e) => setChargeMove2(e.target.value)}
           >
             <option value="">-- Select Charged Move --</option>
-            {cinematicMoves.filter((move) => move.id !== chargeMove).map((move) => (
-              <option key={move.id} value={move.id}>
-                {move.label}
-              </option>
-            ))}
+            {cinematicMoves
+              .filter((move) => move.id !== chargeMove)
+              .map((move) => (
+                <option key={move.id} value={move.id}>
+                  {move.label}
+                </option>
+              ))}
           </select>
         </label>
       </form>
@@ -182,13 +187,14 @@ function CreateCard() {
           <div className="card__typings">
             <img
               className="card__type_icon"
-              src={`https://assets.dittobase.com/go/types/${pokemon.primaryType.names.English.toLowerCase()}.png`}
+                src={typeImages[pokemon.primaryType.names.English.toLowerCase()]}
               alt={pokemon.primaryType.names.English}
             />
             {pokemon.secondaryType !== null ? (
               <img
                 className="card__type_icon"
-                src={`https://assets.dittobase.com/go/types/${pokemon.secondaryType.names.English.toLowerCase()}.png`}
+                  src={typeImages[pokemon.secondaryType.names.English.toLowerCase()]}
+
                 alt={pokemon.secondaryType.names.English}
               />
             ) : (
@@ -206,46 +212,55 @@ function CreateCard() {
           alt={pokemon.name}
           style={{ width: "150px" }}
         />
-        {quickMoveData ? (
-          <div className="move-preview">
-            <h3>{quickMoveData.label}</h3>
-            <img
-              src={`https://assets.dittobase.com/go/types/${quickMoveData.type.toLowerCase()}.png`}
-              alt={quickMoveData.type}
-              style={{ width: "20px", height: "20px", marginRight: "6px" }}
-            />
-            <p>Power: {quickMoveData.power}</p>
-          </div>
-        ) : (
-          <p>No charged move selected</p>
-        )}
-        {chargeMoveData ? (
-          <div className="move-preview">
-            <h3>{chargeMoveData.label}</h3>
-            <img
-              src={`https://assets.dittobase.com/go/types/${chargeMoveData.type.toLowerCase()}.png`}
-              alt={chargeMoveData.type}
-              style={{ width: "20px", height: "20px", marginRight: "6px" }}
-            />
-            <p>Power: {chargeMoveData.power}</p>
-          </div>
-        ) : (
-          <p>No charged move selected</p>
-        )}
-        {chargeMoveData2 ? (
-          <div className="move-preview">
-            <h3>{chargeMoveData2.label}</h3>
-            <img
-              src={`https://assets.dittobase.com/go/types/${chargeMoveData2.type.toLowerCase()}.png`}
-              alt={chargeMoveData2.type}
-              style={{ width: "20px", height: "20px", marginRight: "6px" }}
-            />
-            <p>Type: {chargeMoveData2.type}</p>
-            <p>Power: {chargeMoveData2.power}</p>
-          </div>
-        ) : (
-          <p>No charged move selected</p>
-        )}
+        <div className="card__moves">
+          {quickMoveData ? (
+            <div className="move__preview">
+              <div className="move__preview_container">
+                <img
+                  src={typeImages[quickMoveData.type.toLowerCase()]}
+                  alt={quickMoveData.type}
+                  style={{ width: "20px", height: "20px", marginRight: "6px" }}
+                />
+                <h3>{quickMoveData.label}</h3>
+              </div>
+              <p>{quickMoveData.power}</p>
+            </div>
+          ) : (
+            <p>No charged move selected</p>
+          )}
+          {chargeMoveData ? (
+            <div className="move__preview">
+              <div className="move__preview_container">
+                <img
+                  src={typeImages[chargeMoveData.type.toLowerCase()]}
+                  alt={chargeMoveData.type}
+                  style={{ width: "20px", height: "20px", marginRight: "6px" }}
+                />
+                <h3>{chargeMoveData.label}</h3>
+              </div>
+
+              <p>{chargeMoveData.power}</p>
+            </div>
+          ) : (
+            <p>No charged move selected</p>
+          )}
+          {chargeMoveData2 ? (
+            <div className="move__preview">
+              <div className="move__preview_container">
+                <img
+               src={typeImages[chargeMoveData2.type.toLowerCase()]}
+                  alt={chargeMoveData2.type}
+                  style={{ width: "20px", height: "20px", marginRight: "6px" }}
+                />
+                <h3>{chargeMoveData2.label}</h3>
+              </div>
+              <p>{chargeMoveData2.power}</p>
+            </div>
+          ) : (
+            <p>No charged move selected</p>
+          )}
+        </div>
+
         <p>Trainer: {formData.trainer || "Unknown"}</p>
       </div>
 
