@@ -8,21 +8,18 @@ function CreateCard() {
   const name = searchParams.get("name");
   const [pokemon, setPokemon] = useState(null);
   const [cinematicMoves, setCinematicMoves] = useState([]);
-  const [selectedMove, setSelectedMove] = useState("");
+  const [chargeMove, setChargeMove] = useState("");
+  const [chargeMove2, setChargeMove2] = useState("");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     nickname: "",
+    cp: 0,
     trainer: "",
     isShiny: false,
     quickMove: "",
     chargeMove1: "",
     chargeMove2: "",
   });
-
-  const typeIcons = {
-    Bug: "https://assets.dittobase.com/go/types/bug.png",
-    // ... add all the types your API can return
-  };
 
   const cardRef = useRef();
 
@@ -40,6 +37,7 @@ function CreateCard() {
           }));
           console.log("Cinematic Moves:", cinematic);
           setCinematicMoves(cinematic);
+          console.log(pokemon.primaryType.names.English);
         })
         .catch(() => setError("Invalid Pokémon."));
     }
@@ -69,12 +67,15 @@ function CreateCard() {
 
   if (error) return <p>{error}</p>;
   if (!pokemon) return <p>Loading...</p>;
-  const selectedMoveData = cinematicMoves.find(
-    (move) => move.id === selectedMove
+  const chargeMoveData = cinematicMoves.find(
+    (move) => move.id === chargeMove
+  );
+  const chargeMoveData2 = cinematicMoves.find(
+    (move) => move.id === chargeMove2
   );
 
   return (
-    <div className="create-page">
+    <div className="page">
       <form className="card-form">
         <label>
           Nickname:
@@ -83,6 +84,17 @@ function CreateCard() {
             name="nickname"
             value={formData.nickname}
             onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          Combat Power (CP):
+          <input
+            type="number"
+            name="cp"
+            value={formData.cp}
+            onChange={handleChange}
+            max={9999}
           />
         </label>
 
@@ -105,8 +117,19 @@ function CreateCard() {
             onChange={handleChange}
           />
           <select
-            value={selectedMove}
-            onChange={(e) => setSelectedMove(e.target.value)}
+            value={chargeMove}
+            onChange={(e) => setChargeMove(e.target.value)}
+          >
+            <option value="">-- Select Charged Move --</option>
+            {cinematicMoves.map((move) => (
+              <option key={move.id} value={move.id}>
+                {move.label}
+              </option>
+            ))}
+          </select>
+          <select
+            value={chargeMove2}
+            onChange={(e) => setChargeMove2(e.target.value)}
           >
             <option value="">-- Select Charged Move --</option>
             {cinematicMoves.map((move) => (
@@ -131,6 +154,25 @@ function CreateCard() {
           border: "2px solid #000",
         }}
       >
+        <div className="card__header">
+          <p>CP {formData.cp}</p>
+          <div className="card__typings">
+            <img
+              className="card__type_icon"
+              src={`https://assets.dittobase.com/go/types/${pokemon.primaryType.names.English.toLowerCase()}.png`}
+              alt={pokemon.primaryType.names.English}
+            />
+            {pokemon.secondaryType !== null ? (
+              <img
+                className="card__type_icon"
+                src={`https://assets.dittobase.com/go/types/${pokemon.secondaryType.names.English.toLowerCase()}.png`}
+                alt={pokemon.secondaryType.names.English}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
         <h2>{formData.nickname || pokemon.name}</h2>
         <img
           src={
@@ -141,16 +183,30 @@ function CreateCard() {
           alt={pokemon.name}
           style={{ width: "150px" }}
         />
-        {selectedMove ? (
+        {chargeMove ? (
           <div className="move-preview">
-            <h3>{selectedMoveData.label}</h3>
+            <h3>{chargeMoveData.label}</h3>
             <img
-              src={`https://assets.dittobase.com/go/types/${selectedMoveData.type.toLowerCase()}.png`}
-              alt={selectedMoveData.type}
+              src={`https://assets.dittobase.com/go/types/${chargeMoveData.type.toLowerCase()}.png`}
+              alt={chargeMoveData.type}
               style={{ width: "20px", height: "20px", marginRight: "6px" }}
             />
-            <p>Type: {selectedMoveData.type}</p>
-            <p>Power: {selectedMoveData.power}</p>
+            <p>Type: {chargeMoveData.type}</p>
+            <p>Power: {chargeMoveData.power}</p>
+          </div>
+        ) : (
+          <p>No charged move selected</p>
+        )}
+        {chargeMove2 ? (
+          <div className="move-preview">
+            <h3>{chargeMoveData2.label}</h3>
+            <img
+              src={`https://assets.dittobase.com/go/types/${chargeMoveData2.type.toLowerCase()}.png`}
+              alt={chargeMoveData2.type}
+              style={{ width: "20px", height: "20px", marginRight: "6px" }}
+            />
+            <p>Type: {chargeMoveData2.type}</p>
+            <p>Power: {chargeMoveData2.power}</p>
           </div>
         ) : (
           <p>No charged move selected</p>
