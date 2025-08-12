@@ -8,6 +8,8 @@ function CreateCard() {
   const name = searchParams.get("name");
   const [pokemon, setPokemon] = useState(null);
   const [cinematicMoves, setCinematicMoves] = useState([]);
+  const [quickMoves, setQuickMoves] = useState([]); // list of moves
+  const [selectedQuickMove, setSelectedQuickMove] = useState(""); // selected id
   const [chargeMove, setChargeMove] = useState("");
   const [chargeMove2, setChargeMove2] = useState("");
   const [error, setError] = useState("");
@@ -37,7 +39,14 @@ function CreateCard() {
           }));
           console.log("Cinematic Moves:", cinematic);
           setCinematicMoves(cinematic);
-          console.log(pokemon.primaryType.names.English);
+          const quick = Object.values(pokemon.quickMoves).map((m) => ({
+            id: m.id,
+            label: m.names?.English ?? m.id,
+            power: m.power,
+            type: m.type?.names?.English,
+          }));
+          setQuickMoves(quick);
+          console.log("Quick Moves:", quick);
         })
         .catch(() => setError("Invalid Pokémon."));
     }
@@ -67,9 +76,12 @@ function CreateCard() {
 
   if (error) return <p>{error}</p>;
   if (!pokemon) return <p>Loading...</p>;
-  const chargeMoveData = cinematicMoves.find(
-    (move) => move.id === chargeMove
+  const quickMoveData = quickMoves.find(
+    (move) => move.id === selectedQuickMove
   );
+  console.log("Quick Move Data:", quickMoveData);
+  const chargeMoveData = cinematicMoves.find((move) => move.id === chargeMove);
+  console.log("Charge Move Data:", chargeMoveData);
   const chargeMoveData2 = cinematicMoves.find(
     (move) => move.id === chargeMove2
   );
@@ -117,11 +129,22 @@ function CreateCard() {
             onChange={handleChange}
           />
           <select
+            value={selectedQuickMove}
+            onChange={(e) => setSelectedQuickMove(e.target.value)}
+          >
+            <option value="">-- Select Quick Move --</option>
+            {quickMoves.map((move) => (
+              <option key={move.id} value={move.id}>
+                {move.label}
+              </option>
+            ))}
+          </select>
+          <select
             value={chargeMove}
             onChange={(e) => setChargeMove(e.target.value)}
           >
             <option value="">-- Select Charged Move --</option>
-            {cinematicMoves.map((move) => (
+            {cinematicMoves.filter((move) => move.id !== chargeMove2).map((move) => (
               <option key={move.id} value={move.id}>
                 {move.label}
               </option>
@@ -132,7 +155,7 @@ function CreateCard() {
             onChange={(e) => setChargeMove2(e.target.value)}
           >
             <option value="">-- Select Charged Move --</option>
-            {cinematicMoves.map((move) => (
+            {cinematicMoves.filter((move) => move.id !== chargeMove).map((move) => (
               <option key={move.id} value={move.id}>
                 {move.label}
               </option>
@@ -183,7 +206,20 @@ function CreateCard() {
           alt={pokemon.name}
           style={{ width: "150px" }}
         />
-        {chargeMove ? (
+        {quickMoveData ? (
+          <div className="move-preview">
+            <h3>{quickMoveData.label}</h3>
+            <img
+              src={`https://assets.dittobase.com/go/types/${quickMoveData.type.toLowerCase()}.png`}
+              alt={quickMoveData.type}
+              style={{ width: "20px", height: "20px", marginRight: "6px" }}
+            />
+            <p>Power: {quickMoveData.power}</p>
+          </div>
+        ) : (
+          <p>No charged move selected</p>
+        )}
+        {chargeMoveData ? (
           <div className="move-preview">
             <h3>{chargeMoveData.label}</h3>
             <img
@@ -191,13 +227,12 @@ function CreateCard() {
               alt={chargeMoveData.type}
               style={{ width: "20px", height: "20px", marginRight: "6px" }}
             />
-            <p>Type: {chargeMoveData.type}</p>
             <p>Power: {chargeMoveData.power}</p>
           </div>
         ) : (
           <p>No charged move selected</p>
         )}
-        {chargeMove2 ? (
+        {chargeMoveData2 ? (
           <div className="move-preview">
             <h3>{chargeMoveData2.label}</h3>
             <img
