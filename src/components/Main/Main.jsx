@@ -22,9 +22,8 @@ function Main() {
       await getPokemonByName(trimmedName).then((pokemon) => {
         //console.log("Pokemon data fetched:", pokemon);
       }); // Assume this throws on 404
-      
+
       navigate(`/create?name=${encodeURIComponent(trimmedName)}`);
-      
     } catch (err) {
       setError("That is not a valid Pokémon name.");
     }
@@ -32,16 +31,19 @@ function Main() {
 
   return (
     <div className="main">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="main__form">
         <input
+          className="main__input"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter Pokémon name"
         />
-        <button type="submit">Continue</button>
+        <button type="submit" className="main__button">
+          Continue
+        </button>
       </form>
-       {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }

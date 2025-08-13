@@ -21,6 +21,7 @@
   border-radius: 8px;
   margin: 0 auto;
   gap: 10px;
+  box-sizing: border-box;
 }
 
 .card__preview {
@@ -90,7 +91,7 @@
   align-items: center;
 }
 .card__export_button {
-  margin-top: 10px;
+  margin: 10px;
 }
 
 @media (max-width: 768px) {
