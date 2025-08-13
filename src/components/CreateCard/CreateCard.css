@@ -62,14 +62,14 @@
 
 .card__label {
   font-weight: bold;
-  font-family: "Cabinet Grotesk Bold";
+  font-family: "Cabinet Grotesk Bold", sans-serif;
 }
 .card__input {
   padding: 10px;
   margin: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-family: "Cabinet Grotesk Medium";
+  font-family: "Cabinet Grotesk Medium", sans-serif;
 }
 
 .card__moves {

@@ -6,13 +6,13 @@
   justify-content: space-between;
   flex-direction: row;
   margin-bottom: 10px;
-  font-family: "Cabinet Grotesk Black";
+  font-family: "Cabinet Grotesk Black", sans-serif;
 }
 .header__container {
   gap: 20px;
   display: flex;
   align-items: center;
-  font-family: "Cabinet Grotesk Medium";
+  font-family: "Cabinet Grotesk Medium", sans-serif;
 }
 
 @media (max-width: 768px) {
