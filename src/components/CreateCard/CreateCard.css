@@ -7,6 +7,7 @@
   justify-content: space-between;
   gap: 20px;
   margin-top: 20px;
+  
 }
 .card__form {
   width: 100%;
@@ -61,12 +62,14 @@
 
 .card__label {
   font-weight: bold;
+  font-family: "Cabinet Grotesk Bold";
 }
 .card__input {
   padding: 10px;
   margin: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: "Cabinet Grotesk Medium";
 }
 
 .card__moves {
