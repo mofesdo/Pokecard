@@ -1,0 +1,28 @@
+.header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 10px;
+  font-family: "Cabinet Grotesk Black", sans-serif;
+}
+.header__container {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  font-family: "Cabinet Grotesk Medium", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+  }
+  .header__container {
+    flex-direction: column;
+  }
+}
