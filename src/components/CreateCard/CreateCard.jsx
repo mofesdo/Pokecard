@@ -5,6 +5,7 @@ import typeImages from "../../utils/typeImages";
 import "./CreateCard.css";
 
 function CreateCard() {
+  //Emergent Push
   const [searchParams] = useSearchParams();
   const name = searchParams.get("name");
   const [pokemon, setPokemon] = useState(null);
